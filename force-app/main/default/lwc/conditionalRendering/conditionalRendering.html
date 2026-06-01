@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Conditional Rendering">
+        <div class="slds-p-around_medium">
+            <lightning-input
+                type="checkbox"
+                label="Show/Hide Content"
+                onchange={handleCheckboxChange}>
+            </lightning-input>
+            <template if:true={isContentVisible}>
+                <p>This content is conditionally rendered True.</p>
+            </template>
+            <template if:false={isContentVisible}>
+                <p>This content is conditionally rendered False.</p>
+            </template>
+            <ul>
+                <template iterator:it={contacts}>
+                    <li key={it.value.id}>
+                        <div if:true={it.first} class="list-first"></div>
+                        {it.value.name}
+                        -
+                        {it.value.email}
+                        <div if:true={it.last} class="list-last"></div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </lightning-card>
+</template>

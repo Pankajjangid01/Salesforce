@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Data Binding" icon-name="custom:custom14">
+        <div class="slds-p-around_medium">
+            <!-- Fetch data using getters -->
+            <!-- <p>Hello, {fullName}!</p>
+            <lightning-input name="firstName" label="Enter your First name"  onchange={handleNameChange} class="slds-theme_default"></lightning-input>
+            <lightning-input name="lastName" label="Enter your Last name"  onchange={handleNameChange} class="slds-theme_default"></lightning-input> -->
+
+            <!-- Fetch data using query selectors -->
+            <!-- <p>Hello {greetings}</p>
+            <lightning-input label="Name" value={greetings}></lightning-input>
+            <lightning-button label="Update Greeting" onclick={updateGreeting}></lightning-button> -->
+
+            <!-- Fetch data using query selectors all-->
+            <p>Hello {firstName} {lastName}</p>
+            <lightning-input name="firstName" label="First Name" value={firstName}></lightning-input>
+            <br/>
+            <lightning-input name="lastName" label="Last Name" value={lastName}></lightning-input>
+            <lightning-button label="Update Names" onclick={updateNames}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

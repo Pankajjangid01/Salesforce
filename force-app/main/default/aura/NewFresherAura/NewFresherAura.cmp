@@ -1,0 +1,13 @@
+<aura:component 
+    controller="StudtentController"
+    access="global"
+    implements="lightning:isUrlAddressable,force:appHostable">
+
+    <aura:attribute name="pageReference" type="Object"/>
+
+    <aura:handler 
+        name="init"
+        value="{!this}"
+        action="{!c.doInit}"/>
+
+</aura:component>

@@ -1,0 +1,17 @@
+<template>
+    <template if:true={hasStudents}>
+        <lightning-card title="Student Details" icon-name="standard:person_account">
+            <ul class="slds-p-around_medium">
+                <!-- below line is used for the property method -->
+                <!-- <template for:each={wiredStudents.data} for:item="student"> --> 
+                <template for:each={students} for:item="student">
+                    <li key={student.Id} class="slds-box slds-theme_default slds-m-bottom_small">
+                        <p class="slds-text-title_bold">Name: {student.Name__c}</p>
+                        <p>Phone: {student.Phone__c}</p>
+                        <p>Father Name: {student.Father_Name__c}</p>
+                        <p>Mother Name: {student.Mother_Name__c}</p>
+                    </li>
+                </template>
+            </ul>
+        </lightning-card>
+</template>

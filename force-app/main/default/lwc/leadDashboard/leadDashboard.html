@@ -1,0 +1,194 @@
+<template>
+    <lightning-card title="NorthWind — Lead Dashboard" 
+                    icon-name="standard:lead">
+
+        <!-- ═══════════════════════════════ -->
+        <!-- LOADING SPINNER                 -->
+        <!-- ═══════════════════════════════ -->
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-m-vertical_large">
+                <lightning-spinner 
+                    alternative-text="Loading..." 
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- STAT TILES                      -->
+            <!-- ═══════════════════════════════ -->
+            <div class="slds-grid slds-gutters slds-m-around_medium">
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-tile blue">
+                        <p class="stat-label">Total Leads</p>
+                        <p class="stat-number">{stats.totalLeads}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-tile orange">
+                        <p class="stat-label">🔥 Hot Leads</p>
+                        <p class="stat-number">{stats.hotLeads}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-tile red">
+                        <p class="stat-label">⚠️ Overdue Follow-ups</p>
+                        <p class="stat-number">{stats.overdueFollowUps}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-tile grey">
+                        <p class="stat-label">🔁 Duplicates</p>
+                        <p class="stat-number">{stats.duplicateLeads}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- CHARTS ROW                      -->
+            <!-- ═══════════════════════════════ -->
+            <div class="slds-grid slds-gutters slds-m-around_medium">
+
+                <!-- Pie Chart — Leads by Source -->
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="chart-box">
+                        <h3 class="chart-title">Leads by Source</h3>
+                        <div class="chart-container">
+                            <canvas class="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bar Chart — Leads by Status -->
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="chart-box">
+                        <h3 class="chart-title">Leads by Status</h3>
+                        <div class="chart-container">
+                            <canvas class="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- FILTERS ROW                     -->
+            <!-- ═══════════════════════════════ -->
+            <div class="slds-grid slds-gutters slds-m-horizontal_medium 
+                        slds-m-bottom_small">
+
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-input
+                        type="search"
+                        label="Search"
+                        placeholder="Name, Company, Email..."
+                        value={searchTerm}
+                        onchange={handleSearch}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-combobox
+                        label="Status"
+                        value={statusFilter}
+                        options={statusOptions}
+                        onchange={handleStatusFilter}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-combobox
+                        label="Score"
+                        value={scoreFilter}
+                        options={scoreOptions}
+                        onchange={handleScoreFilter}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-8 slds-align-bottom">
+                    <lightning-button
+                        label="Refresh"
+                        icon-name="utility:refresh"
+                        onclick={handleRefresh}>
+                    </lightning-button>
+                </div>
+
+            </div>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- BULK ACTION BAR                 -->
+            <!-- ═══════════════════════════════ -->
+            <template if:true={hasSelectedRows}>
+                <div class="slds-m-horizontal_medium slds-m-bottom_small 
+                            slds-box slds-theme_shade bulk-bar">
+                    <span class="slds-m-right_medium">
+                        <strong>{selectedCount}</strong> lead(s) selected
+                    </span>
+                    <lightning-button
+                        label="Reassign to Me"
+                        variant="brand"
+                        icon-name="utility:people"
+                        onclick={handleReassign}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Clear Selection"
+                        class="slds-m-left_small"
+                        icon-name="utility:close"
+                        onclick={handleClearSelection}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- DATATABLE                       -->
+            <!-- ═══════════════════════════════ -->
+            <div class="slds-m-horizontal_medium">
+                <lightning-datatable
+                    key-field="Id"
+                    data={leads}
+                    columns={columns}
+                    selected-rows={selectedRows}
+                    onrowselection={handleRowSelection}
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </div>
+
+            <!-- ═══════════════════════════════ -->
+            <!-- PAGINATION                      -->
+            <!-- ═══════════════════════════════ -->
+            <div class="slds-grid slds-grid_align-center 
+                        slds-m-vertical_medium">
+
+                <lightning-button
+                    label="Previous"
+                    icon-name="utility:chevronleft"
+                    disabled={isFirstPage}
+                    onclick={handlePrevious}>
+                </lightning-button>
+
+                <span class="slds-m-horizontal_medium page-info">
+                    Page {currentPage} of {totalPages} 
+                    &nbsp;({totalCount} total)
+                </span>
+
+                <lightning-button
+                    label="Next"
+                    icon-name="utility:chevronright"
+                    icon-position="right"
+                    disabled={isLastPage}
+                    onclick={handleNext}>
+                </lightning-button>
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+</template>

@@ -1,0 +1,84 @@
+/* ═══════════════════════════════════════
+   STAT TILES — upar ke 4 cards
+   ═══════════════════════════════════════ */
+.stat-tile {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+/* Hover pe thoda upar uthega */
+.stat-tile:hover {
+    transform: translateY(-3px);
+}
+
+/* 4 alag colors — 4 tiles ke liye */
+.stat-tile.blue   { background: linear-gradient(135deg, #0176d3, #014486); }
+.stat-tile.orange { background: linear-gradient(135deg, #ff5a1f, #c23b00); }
+.stat-tile.red    { background: linear-gradient(135deg, #dd7a01, #a85c00); }
+.stat-tile.grey   { background: linear-gradient(135deg, #706e6b, #444444); }
+
+.stat-label {
+    font-size: 12px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+/* ═══════════════════════════════════════
+   BULK ACTION BAR
+   ═══════════════════════════════════════ */
+.bulk-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: #f3f3f3;
+    border-radius: 6px;
+    border-left: 4px solid #0176d3;
+}
+
+/* ═══════════════════════════════════════
+   PAGINATION
+   ═══════════════════════════════════════ */
+.page-info {
+    font-size: 14px;
+    color: #444;
+    display: flex;
+    align-items: center;
+}
+
+/* ═══════════════════════════════════════
+   CHARTS
+   ═══════════════════════════════════════ */
+.chart-box {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e5e5;
+}
+
+.chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
