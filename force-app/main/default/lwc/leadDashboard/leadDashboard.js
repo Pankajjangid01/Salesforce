@@ -64,7 +64,6 @@ export default class LeadDashboard extends LightningElement {
     pieChartInstance = null;
     barChartInstance = null;
 
-    // Chart.js load hua ya nahi
     chartJsLoaded = false;
 
     // ─────────────────────────────────────────
